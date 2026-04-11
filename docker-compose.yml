@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # ── Frontend: Nginx serves built React app ──
+  frontend:
+    build:
+      context: ./packages/client
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+      - "8443:443"
+    depends_on:
+      - backend
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    networks:
+      - orion-network
+    restart: unless-stopped
+
+  # ── Backend: Node.js API + WebSocket server ──
+  backend:
+    build:
+      context: ./packages/server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - HOST=0.0.0.0
+      - WORKSPACES_DIR=/app/workspaces
+      - WORKSPACES_HOST_PATH=/home/t1g3r/Desktop/Projects/Orion Studio/workspaces
+      - DB_PATH=/app/data/orion.db
+    volumes:
+      - ./workspaces:/app/workspaces
+      - ./data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - orion-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+
+networks:
+  orion-network:
+    driver: bridge

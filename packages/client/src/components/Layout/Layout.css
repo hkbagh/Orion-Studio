@@ -1,0 +1,153 @@
+/* ============================================================
+   Layout Styles — Flexbox-based (no CSS Grid)
+   ============================================================ */
+
+/* Outer shell: column layout → [workspace-row] + [status-bar] */
+.workspace-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* Inner row: activity-bar + sidebar + main editor area */
+.workspace-row {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Sidebar wrapper — fixed width, full height */
+.workspace-sidebar-wrapper {
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content area: editor + optional terminal */
+.workspace-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Editor area inside main */
+.workspace-editor-area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Split Pane
+   ============================================================ */
+
+.split-pane {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.split-pane-horizontal {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.split-pane-vertical {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.split-pane-handle {
+  flex-shrink: 0;
+  z-index: var(--z-base);
+  transition: background var(--transition-fast);
+}
+
+.split-pane-handle-horizontal {
+  width: 3px;
+  cursor: col-resize;
+  background: var(--border-primary);
+}
+
+.split-pane-handle-vertical {
+  height: 3px;
+  cursor: row-resize;
+  background: var(--border-primary);
+}
+
+.split-pane-handle:hover,
+.split-pane-handle.dragging {
+  background: var(--accent-primary);
+}
+
+/* ============================================================
+   Empty State
+   ============================================================ */
+
+.editor-empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-editor);
+  color: var(--text-tertiary);
+  gap: var(--space-lg);
+  user-select: none;
+}
+
+.editor-empty-logo {
+  font-size: 64px;
+  opacity: 0.3;
+  margin-bottom: var(--space-md);
+}
+
+.editor-empty-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+}
+
+.editor-empty-subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.editor-empty-shortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.editor-empty-shortcut {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.editor-empty-shortcut kbd {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  color: var(--text-secondary);
+}

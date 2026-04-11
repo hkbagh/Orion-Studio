@@ -1,0 +1,149 @@
+/* ============================================================
+   Inline AI Edit Widget
+   ============================================================ */
+
+.inline-ai-widget {
+  position: absolute;
+  z-index: var(--z-dropdown);
+  width: 420px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--ai-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), var(--shadow-ai);
+  overflow: hidden;
+  animation: slideInUp var(--transition-slow) ease;
+}
+
+.inline-ai-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--ai-accent-muted);
+  border-bottom: 1px solid var(--ai-border);
+  font-size: var(--text-xs);
+  color: var(--ai-accent);
+  font-weight: var(--font-weight-semibold);
+}
+
+.inline-ai-input-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.inline-ai-input {
+  flex: 1;
+  border: none;
+  background: var(--surface-input);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+.inline-ai-input:focus {
+  outline: none;
+  border-color: var(--ai-accent);
+}
+
+.inline-ai-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--ai-accent);
+  color: white;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.inline-ai-submit:hover {
+  background: var(--ai-accent-hover);
+}
+
+.inline-ai-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.inline-ai-preview {
+  padding: var(--space-md);
+  max-height: 280px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.6;
+}
+
+.inline-ai-diff-add {
+  background: rgba(63, 185, 80, 0.15);
+  color: var(--status-success);
+}
+
+.inline-ai-diff-remove {
+  background: rgba(248, 81, 73, 0.15);
+  color: var(--status-error);
+  text-decoration: line-through;
+}
+
+.inline-ai-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-top: 1px solid var(--border-secondary);
+}
+
+.inline-ai-btn {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.inline-ai-btn-accept {
+  background: var(--status-success);
+  color: white;
+}
+
+.inline-ai-btn-accept:hover {
+  filter: brightness(1.1);
+}
+
+.inline-ai-btn-reject {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+}
+
+.inline-ai-btn-reject:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.inline-ai-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+}
+
+.inline-ai-loading-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ai-accent-muted);
+  border-top-color: var(--ai-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}

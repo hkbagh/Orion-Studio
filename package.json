@@ -1,0 +1,16 @@
+{
+  "name": "orion-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser-based Cloud IDE with Agentic AI Coding",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "cd packages/client && npm run dev",
+    "dev:server": "cd packages/server && npm run dev",
+    "build": "cd packages/client && npm run build",
+    "start": "cd packages/server && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

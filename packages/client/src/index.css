@@ -1,0 +1,349 @@
+/* ============================================================
+   ORION STUDIO — Design System & Global Styles
+   ============================================================ */
+
+/* ---- Fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+/* ============================================================
+   Design Tokens
+   ============================================================ */
+:root {
+  /* ---- Colors: Background ---- */
+  --bg-primary: #09080d;
+  --bg-secondary: #0f0e15;
+  --bg-tertiary: #1a1924;
+  --bg-elevated: #1a1924;
+  --bg-hover: #262436;
+  --bg-active: #322f46;
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+
+  /* ---- Colors: Surface (panels, cards) ---- */
+  --surface-editor: #09080d;
+  --surface-sidebar: #0f0e15;
+  --surface-panel: #111019;
+  --surface-tab-active: #09080d;
+  --surface-tab-inactive: #0f0e15;
+  --surface-statusbar: #3b0764; /* deep purple space status bar */
+  --surface-activitybar: #09080d;
+  --surface-input: #1a1924;
+  --surface-dropdown: #262436;
+
+  /* ---- Colors: Border ---- */
+  --border-primary: #2a283e;
+  --border-secondary: #1a1924;
+  --border-focus: #c084fc;
+  --border-active: #d8b4fe;
+
+  /* ---- Colors: Text ---- */
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-inverse: #09080d;
+  --text-link: #c084fc;
+  --text-accent: #e879f9;
+
+  /* ---- Colors: Accent ---- */
+  --accent-primary: #c084fc;
+  --accent-secondary: #a855f7;
+  --accent-hover: #d8b4fe;
+  --accent-muted: rgba(192, 132, 252, 0.15);
+
+  /* ---- Colors: Status ---- */
+  --status-success: #10b981;
+  --status-warning: #f59e0b;
+  --status-error: #ef4444;
+  --status-info: #8b5cf6;
+
+  /* ---- Colors: Syntax (editor theme hints) ---- */
+  --syntax-keyword: #c678dd;
+  --syntax-string: #98c379;
+  --syntax-number: #d19a66;
+  --syntax-function: #61afef;
+  --syntax-comment: #5c6370;
+  --syntax-variable: #e06c75;
+
+  /* ---- Colors: AI Agent ---- */
+  --ai-accent: #f472b6;
+  --ai-accent-hover: #ec4899;
+  --ai-accent-muted: rgba(244, 114, 182, 0.15);
+  --ai-bg: #25122b;
+  --ai-border: #4a2556;
+  --ai-tool-bg: #111019;
+  --ai-tool-border: #2a283e;
+  --ai-success: #10b981;
+  --ai-error: #ef4444;
+
+  /* ---- Spacing ---- */
+  --space-xxs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-xxxl: 48px;
+
+  /* ---- Typography ---- */
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+
+  --text-xxs: 10px;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-xxl: 24px;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ---- Borders ---- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(88, 166, 255, 0.15);
+  --shadow-ai: 0 0 20px rgba(168, 85, 247, 0.2);
+
+  /* ---- Transitions ---- */
+  --transition-fast: 0.1s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---- Z-index layers ---- */
+  --z-base: 1;
+  --z-sidebar: 10;
+  --z-panel: 20;
+  --z-dropdown: 100;
+  --z-modal: 200;
+  --z-tooltip: 300;
+  --z-notification: 400;
+
+  /* ---- Layout Sizes ---- */
+  --activitybar-width: 48px;
+  --sidebar-width: 260px;
+  --sidebar-min-width: 180px;
+  --sidebar-max-width: 500px;
+  --statusbar-height: 24px;
+  --tabbar-height: 36px;
+  --titlebar-height: 0px;
+  --panel-min-height: 100px;
+  --panel-default-height: 220px;
+}
+
+/* ============================================================
+   Reset & Base
+   ============================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   Scrollbar Styling
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-active);
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ============================================================
+   Selection
+   ============================================================ */
+::selection {
+  background: rgba(56, 139, 253, 0.3);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   Focus Outlines
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: -2px;
+}
+
+/* ============================================================
+   Common Utilities
+   ============================================================ */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   Button Base
+   ============================================================ */
+button {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Input Base
+   ============================================================ */
+input, textarea {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  background: var(--surface-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+input:focus, textarea:focus {
+  border-color: var(--border-focus);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-slow) ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideInUp var(--transition-slow) ease forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
