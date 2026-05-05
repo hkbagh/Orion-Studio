@@ -32,14 +32,18 @@
    - 5.3 [Translation Service Utilities](#53-translation-service-utilities)
    - 5.4 [Run Stream](#54-run-stream)
    - 5.5 [SSE Event Reference](#55-sse-event-reference)
-6. [Infrastructure](#6-infrastructure)
+6. [Real-Time Collaboration](#6-real-time-collaboration)
+   - 6.1 [Yjs and CRDTs](#61-yjs-and-crdts)
+   - 6.2 [Frontend Architecture](#62-frontend-architecture)
+   - 6.3 [Backend Architecture](#63-backend-architecture)
+7. [Infrastructure](#7-infrastructure)
    - 6.1 [Docker Compose](#61-docker-compose)
    - 6.2 [Nginx Configuration](#62-nginx-configuration)
    - 6.3 [Workspace Container Lifecycle](#63-workspace-container-lifecycle)
-7. [Authentication](#7-authentication)
-8. [Data Flow Diagrams](#8-data-flow-diagrams)
-9. [Adding a New Feature](#9-adding-a-new-feature)
-10. [Troubleshooting](#10-troubleshooting)
+8. [Authentication](#8-authentication)
+9. [Data Flow Diagrams](#9-data-flow-diagrams)
+10. [Adding a New Feature](#10-adding-a-new-feature)
+11. [Troubleshooting](#11-troubleshooting)
 
 ---
 
@@ -682,7 +686,26 @@ The language is auto-detected from file extensions if not provided. Runs `bash -
 
 ---
 
-## 6. Infrastructure
+
+## 6. Real-Time Collaboration
+
+### 6.1 Yjs and CRDTs
+Orion Studio uses `Yjs`, a high-performance Conflict-free Replicated Data Type (CRDT) implementation, to resolve real-time collaborative edits. Instead of Operational Transformation (OT), CRDTs allow offline edits, arbitrary connection delays, and peer-to-peer sync without a central sequencer.
+
+### 6.2 Frontend Architecture
+- **`CollaborationProvider`**: A custom WebSocket wrapper around `y-protocols/sync` and `y-protocols/awareness`. It connects to `/ws/collab?token=<shareToken>`.
+- **State**: The `CollaborationProvider` bridges the `Y.Doc` updates into the Monaco Editor model. It also syncs the Awareness protocol to show remote cursors and selection highlights.
+- **UI**: A Share Dialog generates secure tokens granting Editor or Viewer permissions.
+
+### 6.3 Backend Architecture
+- **`collaborationService.js`**: Maintains a memory map of active `Y.Doc` instances. When a user connects, it looks up the underlying `workspaceId` mapped to the share token.
+- **Persistence**: While edits are resolved in-memory across clients, the backend debounces writes to disk (the actual file in `workspaces/<id>`) to ensure the host file system stays in sync.
+- **WebSocket Protocol**: Uses `MESSAGE_SYNC` (Yjs sync steps), `MESSAGE_AWARENESS` (cursors), and custom JSON control messages for user join/leave alerts and permission checking.
+
+---
+
+## 7. Infrastructure
+
 
 ### 6.1 Docker Compose
 
@@ -761,7 +784,7 @@ terminalHandler checks activeContainers Map
 
 ---
 
-## 7. Authentication
+## 8. Authentication
 
 ### JWT Flow
 
@@ -788,7 +811,7 @@ terminalHandler checks activeContainers Map
 
 ---
 
-## 8. Data Flow Diagrams
+## 9. Data Flow Diagrams
 
 ### AI Chat Request
 
@@ -860,7 +883,7 @@ TranslatePage.jsx
 
 ---
 
-## 9. Adding a New Feature
+## 10. Adding a New Feature
 
 ### New API Route
 
@@ -895,7 +918,7 @@ TranslatePage.jsx
 
 ---
 
-## 10. Troubleshooting
+## 11. Troubleshooting
 
 ### Terminal shows "Docker not available"
 

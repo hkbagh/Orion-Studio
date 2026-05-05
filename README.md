@@ -13,6 +13,7 @@ Built with React, Monaco Editor, Node.js, and Docker — Orion Studio gives you 
 | **Monaco Editor** | The same engine powering VS Code — syntax highlighting, IntelliSense-style editing, custom `orion-space` dark theme |
 | **Agentic AI Assistant** | 7-tool autonomous agent (`read`, `write`, `edit`, `list`, `search`, `run`, `diagnostics`) powered by OpenRouter or Gemini |
 | **Code Translator** | Upload a ZIP of any project and AI-convert it between Java, Python, JavaScript, and C++ — preserving logic, structure, and context |
+| **Real-Time Collaboration** | Generate shareable links to invite users. Co-edit files in real-time with cursor tracking using Yjs (CRDT) and WebSockets |
 | **Docker Workspaces** | Each workspace runs in an isolated Docker container; your host machine stays clean |
 | **Live Terminal** | WebSocket-backed xterm.js terminal with full interactivity, inside each workspace container |
 | **Smart Port Forwarding** | Expose ports from inside a container directly to your host browser |
@@ -36,16 +37,18 @@ Translator    →  /translate
 
 ### Frontend
 - **React 19** + **Vite 8** — fast HMR dev server and optimised production build
-- **Zustand** — lightweight global state (`editorStore`, `workspaceStore`, `aiStore`)
+- **Zustand** — lightweight global state (`editorStore`, `workspaceStore`, `aiStore`, `collaborationStore`)
 - **Monaco Editor** (`@monaco-editor/react`) — VS Code editor engine
+- **Yjs** & **y-protocols** — CRDT engine for real-time collaborative editing and cursor awareness
 - **xterm.js** (`@xterm/xterm`) — full-featured terminal emulator
 - **react-router-dom v7** — client-side routing
 - **lucide-react** — icon set
 
 ### Backend
 - **Node.js 20** + **Express 5** — HTTP API and WebSocket server on a single port
-- **better-sqlite3** — embedded SQLite for users, workspaces, conversations, and settings
-- **ws** — WebSocket server (terminal sessions + file watcher)
+- **better-sqlite3** — embedded SQLite for users, workspaces, conversations, collaboration sessions, and settings
+- **ws** — WebSocket server (terminal sessions, file watcher, collaboration sync)
+- **Yjs** — headless CRDT backend for document syncing and awareness forwarding
 - **Dockerode** — Node.js Docker API client for container lifecycle management
 - **bcryptjs** + **jsonwebtoken** — authentication
 - **uuid** — workspace and job ID generation
@@ -139,17 +142,20 @@ orion-studio/
 │       │   ├── routes/
 │       │   │   ├── ai.js       # /api/ai/* — chat, config, models
 │       │   │   ├── auth.js     # /api/auth/* — setup, login, token
+│       │   │   ├── collaboration.js # /api/collab/* — shareable links
 │       │   │   ├── files.js    # /api/workspaces/:id/file/* — CRUD
 │       │   │   ├── ports.js    # /api/ports — port forwarding
 │       │   │   ├── search.js   # /api/search — full-text grep
 │       │   │   ├── translate.js # /api/translate/* — ZIP upload + AI translate
 │       │   │   └── workspace.js # /api/workspaces — lifecycle
 │       │   ├── services/
+│       │   │   ├── collaborationService.js # Yjs document/awareness management
 │       │   │   ├── dockerService.js    # Container create/start/exec/cleanup
 │       │   │   ├── fileService.js      # Safe file I/O scoped to workspace
 │       │   │   ├── fileWatcher.js      # Chokidar → WebSocket broadcaster
 │       │   │   └── translationService.js # File classification, AI prompts, run commands
 │       │   ├── ws/
+│       │   │   ├── collaborationHandler.js # Yjs WebSocket sync
 │       │   │   └── terminalHandler.js  # Docker exec → xterm WebSocket bridge
 │       │   ├── db/
 │       │   │   ├── database.js         # SQLite queries
@@ -374,10 +380,22 @@ POST /api/auth/logout
 GET  /api/auth/me
 ```
 
+### Collaboration
+```
+POST   /api/collab/share                 { workspaceId, permission, visibility, expiresIn, maxUsers }
+GET    /api/collab/session/:token
+DELETE /api/collab/session/:sessionId
+GET    /api/collab/sessions/workspace/:workspaceId
+GET    /api/collab/sessions/my
+GET    /api/collab/session/:sessionId/participants
+GET    /api/collab/session/:sessionId/activity
+```
+
 ### WebSockets
 ```
 ws://host/ws/terminal?workspaceId=<id>   — interactive terminal
 ws://host/ws/watch?workspaceId=<id>      — file-change events
+ws://host/ws/collab?token=<token>        — Yjs real-time document/cursor sync
 ```
 
 ---
