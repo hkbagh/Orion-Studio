@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 import useFileSystem from './hooks/useFileSystem';
 import useFileWatcher from './hooks/useFileWatcher';
+import useWorkspaceStore from './store/workspaceStore';
 import WorkspaceLayout from './components/Layout/WorkspaceLayout';
 
 function App() {
-  const fileSystem = useFileSystem('local');
+  const workspaceId = useWorkspaceStore(s => s.workspaceId);
+  const fileSystem = useFileSystem(workspaceId);
 
   // Auto-refresh file tree on external file changes
   const handleFileChange = useCallback((event) => {
@@ -14,7 +16,7 @@ function App() {
     }
   }, [fileSystem.fetchFileTree]);
 
-  useFileWatcher('local', handleFileChange);
+  useFileWatcher(workspaceId, handleFileChange);
 
   return <WorkspaceLayout fileSystem={fileSystem} />;
 }

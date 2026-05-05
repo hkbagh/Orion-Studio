@@ -1,5 +1,5 @@
 /* ============================================================
-   Layout Styles — Flexbox-based (no CSS Grid)
+   Layout Styles — Flexbox-based, clean black aesthetic
    ============================================================ */
 
 /* Outer shell: column layout → [workspace-row] + [status-bar] */
@@ -36,6 +36,7 @@
   min-width: 0;
   min-height: 0;
   overflow: hidden;
+  background: var(--surface-editor);
 }
 
 /* Editor area inside main */
@@ -78,13 +79,13 @@
 }
 
 .split-pane-handle-horizontal {
-  width: 3px;
+  width: 1px;
   cursor: col-resize;
   background: var(--border-primary);
 }
 
 .split-pane-handle-vertical {
-  height: 3px;
+  height: 1px;
   cursor: row-resize;
   background: var(--border-primary);
 }
@@ -106,32 +107,33 @@
   justify-content: center;
   background: var(--surface-editor);
   color: var(--text-tertiary);
-  gap: var(--space-lg);
+  gap: var(--space-md);
   user-select: none;
 }
 
 .editor-empty-logo {
-  font-size: 64px;
-  opacity: 0.3;
-  margin-bottom: var(--space-md);
+  opacity: 0.15;
+  margin-bottom: var(--space-sm);
+  color: var(--text-tertiary);
 }
 
 .editor-empty-title {
-  font-size: var(--text-xl);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
 }
 
 .editor-empty-subtitle {
   font-size: var(--text-sm);
   color: var(--text-tertiary);
+  font-weight: var(--font-weight-normal);
 }
 
 .editor-empty-shortcuts {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  margin-top: var(--space-lg);
+  margin-top: var(--space-xl);
 }
 
 .editor-empty-shortcut {
@@ -144,10 +146,10 @@
 
 .editor-empty-shortcut kbd {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-primary);
+  font-size: var(--text-xxs);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
-  padding: 2px 6px;
+  padding: 2px 8px;
   color: var(--text-secondary);
 }

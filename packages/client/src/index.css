@@ -1,5 +1,6 @@
 /* ============================================================
    ORION STUDIO — Design System & Global Styles
+   Inspired by a clean, monochrome dark aesthetic
    ============================================================ */
 
 /* ---- Fonts ---- */
@@ -10,50 +11,51 @@
    ============================================================ */
 :root {
   /* ---- Colors: Background ---- */
-  --bg-primary: #09080d;
-  --bg-secondary: #0f0e15;
-  --bg-tertiary: #1a1924;
-  --bg-elevated: #1a1924;
-  --bg-hover: #262436;
-  --bg-active: #322f46;
-  --bg-overlay: rgba(0, 0, 0, 0.6);
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #111111;
+  --bg-elevated: #171717;
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --bg-active: rgba(255, 255, 255, 0.08);
+  --bg-overlay: rgba(0, 0, 0, 0.7);
 
   /* ---- Colors: Surface (panels, cards) ---- */
-  --surface-editor: #09080d;
-  --surface-sidebar: #0f0e15;
-  --surface-panel: #111019;
-  --surface-tab-active: #09080d;
-  --surface-tab-inactive: #0f0e15;
-  --surface-statusbar: #3b0764; /* deep purple space status bar */
-  --surface-activitybar: #09080d;
-  --surface-input: #1a1924;
-  --surface-dropdown: #262436;
+  --surface-editor: #0a0a0a;
+  --surface-sidebar: rgba(9, 9, 11, 0.5);
+  --surface-panel: #0a0a0a;
+  --surface-tab-active: #171717;
+  --surface-tab-inactive: #000000;
+  --surface-statusbar: #000000;
+  --surface-activitybar: #000000;
+  --surface-input: #000000;
+  --surface-dropdown: #0a0a0a;
 
   /* ---- Colors: Border ---- */
-  --border-primary: #2a283e;
-  --border-secondary: #1a1924;
-  --border-focus: #c084fc;
-  --border-active: #d8b4fe;
+  --border-primary: rgba(255, 255, 255, 0.04);
+  --border-secondary: rgba(255, 255, 255, 0.04);
+  --border-focus: #3b82f6;
+  --border-active: #60a5fa;
+  --border-hover: rgba(255, 255, 255, 0.08);
 
   /* ---- Colors: Text ---- */
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #64748b;
-  --text-inverse: #09080d;
-  --text-link: #c084fc;
-  --text-accent: #e879f9;
+  --text-primary: #ededed;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-inverse: #000000;
+  --text-link: #60a5fa;
+  --text-accent: #3b82f6;
 
   /* ---- Colors: Accent ---- */
-  --accent-primary: #c084fc;
-  --accent-secondary: #a855f7;
-  --accent-hover: #d8b4fe;
-  --accent-muted: rgba(192, 132, 252, 0.15);
+  --accent-primary: #3b82f6;
+  --accent-secondary: #2563eb;
+  --accent-hover: #60a5fa;
+  --accent-muted: rgba(59, 130, 246, 0.1);
 
   /* ---- Colors: Status ---- */
-  --status-success: #10b981;
+  --status-success: #22c55e;
   --status-warning: #f59e0b;
   --status-error: #ef4444;
-  --status-info: #8b5cf6;
+  --status-info: #3b82f6;
 
   /* ---- Colors: Syntax (editor theme hints) ---- */
   --syntax-keyword: #c678dd;
@@ -64,14 +66,14 @@
   --syntax-variable: #e06c75;
 
   /* ---- Colors: AI Agent ---- */
-  --ai-accent: #f472b6;
-  --ai-accent-hover: #ec4899;
-  --ai-accent-muted: rgba(244, 114, 182, 0.15);
-  --ai-bg: #25122b;
-  --ai-border: #4a2556;
-  --ai-tool-bg: #111019;
-  --ai-tool-border: #2a283e;
-  --ai-success: #10b981;
+  --ai-accent: #3b82f6;
+  --ai-accent-hover: #2563eb;
+  --ai-accent-muted: rgba(59, 130, 246, 0.1);
+  --ai-bg: #0a0a0a;
+  --ai-border: rgba(59, 130, 246, 0.2);
+  --ai-tool-bg: #000000;
+  --ai-tool-border: rgba(255, 255, 255, 0.04);
+  --ai-success: #22c55e;
   --ai-error: #ef4444;
 
   /* ---- Spacing ---- */
@@ -112,15 +114,16 @@
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-xl: 12px;
+  --radius-2xl: 16px;
   --radius-full: 9999px;
 
   /* ---- Shadows ---- */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px rgba(88, 166, 255, 0.15);
-  --shadow-ai: 0 0 20px rgba(168, 85, 247, 0.2);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+  --shadow-ai: 0 0 20px rgba(59, 130, 246, 0.15);
 
   /* ---- Transitions ---- */
   --transition-fast: 0.1s ease;
@@ -138,12 +141,12 @@
   --z-notification: 400;
 
   /* ---- Layout Sizes ---- */
-  --activitybar-width: 48px;
-  --sidebar-width: 260px;
+  --activitybar-width: 50px;
+  --sidebar-width: 240px;
   --sidebar-min-width: 180px;
   --sidebar-max-width: 500px;
   --statusbar-height: 24px;
-  --tabbar-height: 36px;
+  --tabbar-height: 40px;
   --titlebar-height: 0px;
   --panel-min-height: 100px;
   --panel-default-height: 220px;
@@ -190,15 +193,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-elevated);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-full);
-  border: 2px solid transparent;
-  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--bg-active);
-  background-clip: content-box;
+  background: rgba(255, 255, 255, 0.14);
 }
 
 ::-webkit-scrollbar-corner {
@@ -209,8 +209,8 @@ body {
    Selection
    ============================================================ */
 ::selection {
-  background: rgba(56, 139, 253, 0.3);
-  color: var(--text-primary);
+  background: var(--accent-primary);
+  color: white;
 }
 
 /* ============================================================
@@ -258,6 +258,14 @@ body {
   border: 0;
 }
 
+/* Glass panel utility */
+.glass-panel {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
 /* ============================================================
    Button Base
    ============================================================ */
@@ -284,8 +292,8 @@ input, textarea {
   font-size: var(--text-sm);
   background: var(--surface-input);
   color: var(--text-primary);
-  border: 1px solid var(--border-primary);
-  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
   padding: var(--space-sm) var(--space-md);
   outline: none;
   transition: border-color var(--transition-fast);

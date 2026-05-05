@@ -1,11 +1,11 @@
-import { Files, Search, Bot, Settings } from 'lucide-react';
+import { Files, Search, Sparkles, Settings } from 'lucide-react';
 import useWorkspaceStore from '../../store/workspaceStore';
 import './Sidebar.css';
 
 const panels = [
   { id: 'files', icon: Files, label: 'Explorer', shortcut: 'Ctrl+Shift+E' },
   { id: 'search', icon: Search, label: 'Search', shortcut: 'Ctrl+Shift+F' },
-  { id: 'ai', icon: Bot, label: 'AI Agent', shortcut: 'Ctrl+Shift+I', isAi: true },
+  { id: 'ai', icon: Sparkles, label: 'AI Agent', shortcut: 'Ctrl+Shift+I', isAi: true },
 ];
 
 const bottomPanels = [

@@ -10,6 +10,7 @@ import aiRouter from './routes/ai.js';
 import searchRouter from './routes/search.js';
 import authRouter from './routes/auth.js';
 import portsRouter, { proxyHandler } from './routes/ports.js';
+import translateRouter from './routes/translate.js';
 import setupTerminalHandler from './ws/terminalHandler.js';
 import dockerService from './services/dockerService.js';
 import FileWatcher from './services/fileWatcher.js';
@@ -44,6 +45,7 @@ app.use('/api', aiRouter);
 app.use('/api', searchRouter);
 app.use('/api', authRouter);
 app.use('/api', portsRouter);
+app.use('/api', translateRouter);
 app.use(proxyHandler);
 
 // ── Initialize Database ──

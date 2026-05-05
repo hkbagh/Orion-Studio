@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #f4f6f8;
+  --color-brand-100: #e3e8ee;
+  --color-brand-200: #cad4de;
+  --color-brand-300: #a4b4c3;
+  --color-brand-400: #768a9f;
+  --color-brand-500: #586e85;
+  --color-brand-600: #44566c;
+  --color-brand-700: #384658;
+  --color-brand-800: #313c4a;
+  --color-brand-900: #2b333e;
+  --color-brand-950: #1b2129;
+  
+  --color-bg-base: #111418;
+  --color-bg-surface: #1a1e23;
+  --color-bg-surface-hover: #232930;
+  --color-bg-elevated: #282f37;
+  
+  --color-border-subtle: #282f37;
+  --color-border-default: #384658;
+  --color-border-hover: #586e85;
+  
+  --color-text-primary: #f4f6f8;
+  --color-text-secondary: #a4b4c3;
+  --color-text-tertiary: #768a9f;
+  
+  --color-accent: #3b82f6;
+  --color-accent-hover: #60a5fa;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, 'Courier New', Courier, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--color-bg-base)] text-[var(--color-text-primary)] antialiased font-sans flex flex-col h-screen overflow-hidden;
+  }
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-hover);
+}
+
+/* Utilities */
+.glass-panel {
+  background: rgba(26, 30, 35, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.editor-gradient {
+  background: linear-gradient(145deg, var(--color-bg-surface) 0%, var(--color-bg-base) 100%);
+}

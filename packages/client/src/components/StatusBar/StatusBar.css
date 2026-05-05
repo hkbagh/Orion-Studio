@@ -1,5 +1,5 @@
 /* ============================================================
-   Status Bar Styles
+   Status Bar Styles — Minimal black bar
    ============================================================ */
 
 .status-bar {
@@ -8,11 +8,10 @@
   justify-content: space-between;
   height: var(--statusbar-height);
   background: var(--surface-statusbar);
-  border-top: 1px solid var(--border-secondary);
-  padding: 0 var(--space-md);
-  font-size: var(--text-xxs);
-  color: var(--text-secondary);
-  grid-column: 1 / -1;
+  border-top: 1px solid var(--border-primary);
+  padding: 0 var(--space-lg);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
   z-index: var(--z-panel);
   user-select: none;
 }
@@ -21,7 +20,7 @@
 .status-bar-right {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
 }
 
 .status-bar-item {
@@ -31,16 +30,20 @@
   padding: 0 var(--space-sm);
   height: 100%;
   cursor: default;
-  transition: background var(--transition-fast);
+  transition: color var(--transition-fast);
   white-space: nowrap;
 }
 
 .status-bar-item:hover {
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
 }
 
 .status-bar-item.clickable {
   cursor: pointer;
+}
+
+.status-bar-item.clickable:hover {
+  color: var(--text-primary);
 }
 
 .status-bar-dot {
@@ -52,7 +55,7 @@
 
 .status-bar-dot.connected {
   background: var(--status-success);
-  box-shadow: 0 0 6px rgba(63, 185, 80, 0.5);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
 }
 
 .status-bar-dot.connecting {
@@ -65,5 +68,12 @@
 }
 
 .status-bar-branch {
-  color: var(--text-accent);
+  color: var(--text-secondary);
+}
+
+.status-bar-ai {
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }

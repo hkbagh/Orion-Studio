@@ -1,11 +1,11 @@
 /* ============================================================
-   Terminal Styles
+   Terminal Styles — Clean black aesthetic
    ============================================================ */
 
 .terminal-panel {
   display: flex;
   flex-direction: column;
-  background: var(--surface-panel);
+  background: var(--bg-primary);
   height: 100%;
   overflow: hidden;
 }
@@ -15,15 +15,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-md);
-  height: 32px;
+  height: 36px;
   flex-shrink: 0;
   border-top: 1px solid var(--border-primary);
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
 }
 
 .terminal-tabs {
   display: flex;
   align-items: center;
+  height: 100%;
   gap: var(--space-xxs);
 }
 
@@ -32,27 +33,28 @@
   align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
+  height: 100%;
   font-size: var(--text-xs);
-  color: var(--text-secondary);
-  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-tertiary);
   cursor: pointer;
   transition: all var(--transition-fast);
+  border-bottom: 2px solid transparent;
 }
 
 .terminal-tab:hover {
-  color: var(--text-primary);
-  background: var(--bg-hover);
+  color: var(--text-secondary);
 }
 
 .terminal-tab.active {
   color: var(--text-primary);
-  background: var(--bg-active);
+  border-bottom-color: var(--text-primary);
 }
 
 .terminal-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: var(--space-xxs);
 }
 
 .terminal-action-btn {
@@ -67,14 +69,15 @@
 }
 
 .terminal-action-btn:hover {
-  color: var(--text-primary);
-  background: var(--bg-hover);
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .terminal-body {
   flex: 1;
   padding: var(--space-xs);
   overflow: hidden;
+  background: var(--bg-primary);
 }
 
 .terminal-body .xterm {
@@ -94,10 +97,9 @@
 
 .terminal-status-dot.connected {
   background: var(--status-success);
-  box-shadow: 0 0 4px rgba(63, 185, 80, 0.5);
+  box-shadow: 0 0 4px rgba(34, 197, 94, 0.5);
 }
 
 .terminal-status-dot.disconnected {
   background: var(--status-error);
 }
-

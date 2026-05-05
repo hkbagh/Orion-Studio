@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { FileCode2 } from 'lucide-react';
 import useWorkspaceStore from '../../store/workspaceStore';
 import useEditorStore from '../../store/editorStore';
 import ActivityBar from '../Sidebar/ActivityBar';
@@ -109,9 +110,9 @@ export default function WorkspaceLayout({ fileSystem }) {
 function EmptyState() {
   return (
     <div className="editor-empty-state">
-      <div className="editor-empty-logo">✦</div>
-      <div className="editor-empty-title">Orion Studio</div>
-      <div className="editor-empty-subtitle">Open a file from the explorer to start editing</div>
+      <div className="editor-empty-logo"><FileCode2 size={48} /></div>
+      <div className="editor-empty-title">Select a file to start editing</div>
+      <div className="editor-empty-subtitle">Open a file from the explorer or use the shortcuts below</div>
       <div className="editor-empty-shortcuts">
         <div className="editor-empty-shortcut">
           <kbd>Ctrl+B</kbd>

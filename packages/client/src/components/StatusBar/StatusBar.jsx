@@ -1,4 +1,4 @@
-import { GitBranch } from 'lucide-react';
+import { GitBranch, Sparkles } from 'lucide-react';
 import useWorkspaceStore from '../../store/workspaceStore';
 import useEditorStore from '../../store/editorStore';
 import './StatusBar.css';
@@ -26,26 +26,22 @@ export default function StatusBar() {
       <div className="status-bar-right">
         {activeFile && (
           <>
-            {/* Language */}
-            <div className="status-bar-item clickable">
-              {activeFile.language}
-            </div>
-
             {/* Encoding */}
             <div className="status-bar-item">
               UTF-8
             </div>
 
-            {/* Indentation */}
+            {/* Language */}
             <div className="status-bar-item clickable">
-              Spaces: 2
+              {activeFile.language}
             </div>
           </>
         )}
 
-        {/* Branding */}
-        <div className="status-bar-item" style={{ color: 'var(--accent-primary)' }}>
-          ✦ Orion Studio
+        {/* AI Status */}
+        <div className="status-bar-item status-bar-ai">
+          <Sparkles size={10} />
+          <span>Orion AI Ready</span>
         </div>
       </div>
     </div>

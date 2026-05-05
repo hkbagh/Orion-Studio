@@ -1,12 +1,12 @@
 /* ============================================================
-   Editor Styles
+   Editor Styles — Ultra-clean dark tabs + breadcrumbs
    ============================================================ */
 
 /* Tab Bar */
 .editor-tabs {
   display: flex;
   align-items: center;
-  background: var(--surface-tab-inactive);
+  background: var(--bg-primary);
   border-bottom: 1px solid var(--border-primary);
   height: var(--tabbar-height);
   overflow-x: auto;
@@ -15,18 +15,17 @@
 }
 
 .editor-tabs::-webkit-scrollbar {
-  height: 2px;
+  height: 0;
 }
 
 .editor-tab {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: 0 var(--space-md);
+  padding: 0 var(--space-lg);
   height: 100%;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  border-right: 1px solid var(--border-secondary);
+  font-size: var(--text-base);
+  color: var(--text-tertiary);
   cursor: pointer;
   transition: all var(--transition-fast);
   white-space: nowrap;
@@ -37,8 +36,7 @@
 }
 
 .editor-tab:hover {
-  background: var(--bg-hover);
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 .editor-tab.active {
@@ -46,19 +44,20 @@
   color: var(--text-primary);
 }
 
-.editor-tab.active::after {
+.editor-tab.active::before {
   content: '';
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background: var(--surface-tab-active);
+  height: 2px;
+  background: var(--accent-primary);
 }
 
 .editor-tab-icon {
-  font-size: 13px;
+  font-size: 14px;
   flex-shrink: 0;
+  line-height: 1;
 }
 
 .editor-tab-name {
@@ -68,10 +67,10 @@
 }
 
 .editor-tab-dirty {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--text-secondary);
+  background: var(--accent-primary);
   flex-shrink: 0;
 }
 
@@ -89,12 +88,13 @@
 }
 
 .editor-tab:hover .editor-tab-close {
-  opacity: 1;
+  opacity: 0.7;
 }
 
 .editor-tab-close:hover {
-  background: var(--bg-active);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
+  opacity: 1;
 }
 
 /* Monaco Container */
@@ -121,9 +121,9 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 3px var(--space-md);
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-secondary);
+  padding: 4px var(--space-lg);
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-primary);
   font-size: var(--text-xxs);
   overflow-x: auto;
   flex-shrink: 0;
@@ -152,8 +152,8 @@
 }
 
 .breadcrumb-segment:hover {
-  color: var(--text-primary);
-  background: var(--bg-hover);
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .breadcrumb-active {
@@ -167,4 +167,5 @@
 .breadcrumb-separator {
   color: var(--text-tertiary);
   flex-shrink: 0;
+  opacity: 0.5;
 }
