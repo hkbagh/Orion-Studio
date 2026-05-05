@@ -83,6 +83,46 @@ class ApiService {
   async healthCheck() {
     return this.request('/health');
   }
+
+  // ── Collaboration Operations ──
+  async createShareSession(workspaceId, options = {}) {
+    return this.request('/collab/share', {
+      method: 'POST',
+      body: JSON.stringify({
+        workspaceId,
+        permission: options.permission || 'editor',
+        visibility: options.visibility || 'private',
+        expiresIn: options.expiresIn || null,
+        maxUsers: options.maxUsers || 10,
+      }),
+    });
+  }
+
+  async getSessionByToken(token) {
+    return this.request(`/collab/session/${token}`);
+  }
+
+  async getWorkspaceSessions(workspaceId) {
+    return this.request(`/collab/sessions/workspace/${workspaceId}`);
+  }
+
+  async getMySessions() {
+    return this.request('/collab/sessions/my');
+  }
+
+  async revokeSession(sessionId) {
+    return this.request(`/collab/session/${sessionId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getSessionParticipants(sessionId) {
+    return this.request(`/collab/session/${sessionId}/participants`);
+  }
+
+  async getSessionActivity(sessionId, limit = 100) {
+    return this.request(`/collab/session/${sessionId}/activity?limit=${limit}`);
+  }
 }
 
 const api = new ApiService();

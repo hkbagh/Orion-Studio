@@ -11,7 +11,9 @@ import searchRouter from './routes/search.js';
 import authRouter from './routes/auth.js';
 import portsRouter, { proxyHandler } from './routes/ports.js';
 import translateRouter from './routes/translate.js';
+import collaborationRouter from './routes/collaboration.js';
 import setupTerminalHandler from './ws/terminalHandler.js';
+import setupCollaborationHandler from './ws/collaborationHandler.js';
 import dockerService from './services/dockerService.js';
 import FileWatcher from './services/fileWatcher.js';
 import { getDatabase } from './db/database.js';
@@ -46,6 +48,7 @@ app.use('/api', searchRouter);
 app.use('/api', authRouter);
 app.use('/api', portsRouter);
 app.use('/api', translateRouter);
+app.use('/api', collaborationRouter);
 app.use(proxyHandler);
 
 // ── Initialize Database ──
@@ -68,6 +71,7 @@ server.on('upgrade', (request, socket, head) => {
 
 // Setup terminal WebSocket handler
 setupTerminalHandler(wss);
+setupCollaborationHandler(wss);
 
 // Setup file watcher
 const fileWatcher = new FileWatcher();

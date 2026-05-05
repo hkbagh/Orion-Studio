@@ -10,7 +10,8 @@ data/
 *.db
 *.db-journal
 *.db-wal
-
+*.db-shm
+*.log
 # Environment
 .env
 .env.local
@@ -28,3 +29,5 @@ nginx/certs/
 
 # Workspace files (user data)
 workspaces/
+
+Orion-Studio-main/
