@@ -9,14 +9,54 @@
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border-primary);
   height: var(--tabbar-height);
-  overflow-x: auto;
-  overflow-y: hidden;
   flex-shrink: 0;
 }
 
-.editor-tabs::-webkit-scrollbar {
+.editor-tabs-list {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.editor-tabs-list::-webkit-scrollbar {
   height: 0;
 }
+
+/* Run button */
+.editor-run-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  margin: 0 8px;
+  height: 26px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-md);
+  color: #10b981;
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-ui);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.editor-run-btn:hover {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #34d399;
+}
+
+.editor-run-btn:active {
+  transform: scale(0.97);
+}
+
 
 .editor-tab {
   display: flex;

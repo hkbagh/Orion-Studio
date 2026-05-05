@@ -6,41 +6,66 @@ import '@xterm/xterm/css/xterm.css';
 
 /**
  * Custom hook to manage a terminal instance and its WebSocket connection.
+ *
+ * Designed to be StrictMode-safe: uses a module-level singleton for the
+ * terminal + WebSocket so double-mount/unmount cycles don't destroy state.
  */
+
+// Module-level singletons — survive React re-mounts
+let _terminal = null;
+let _fitAddon = null;
+let _ws = null;
+let _container = null;
+let _listenersAttached = false;
+
 export default function useTerminal(workspaceId = 'local') {
-  const terminalRef = useRef(null);
-  const fitAddonRef = useRef(null);
-  const wsRef = useRef(null);
-  const containerRef = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
+  const mountedRef = useRef(true);
+
+  const fitTerminal = useCallback(() => {
+    try { _fitAddon?.fit(); } catch {}
+  }, []);
 
   const initTerminal = useCallback((container) => {
-    if (terminalRef.current || !container) return;
-    containerRef.current = container;
+    // If already initialized into THIS container, skip
+    if (_terminal && _container === container) {
+      fitTerminal();
+      return;
+    }
+
+    // If initialized into a different container, dispose first
+    if (_terminal) {
+      _terminal.dispose();
+      _terminal = null;
+      _fitAddon = null;
+      _listenersAttached = false;
+    }
+
+    _container = container;
 
     const terminal = new Terminal({
       theme: {
-        background: '#09080d',
-        foreground: '#e2e8f0',
-        cursor: '#c084fc',
-        cursorAccent: '#09080d',
-        selectionBackground: 'rgba(192, 132, 252, 0.3)',
-        black: '#1a1924',
+        background: '#000000',
+        foreground: '#e4e4e7',
+        cursor: '#3b82f6',
+        cursorAccent: '#000000',
+        selectionBackground: 'rgba(59, 130, 246, 0.3)',
+        black: '#18181b',
         red: '#ef4444',
         green: '#10b981',
         yellow: '#f59e0b',
-        blue: '#8b5cf6',
-        magenta: '#d8b4fe',
-        cyan: '#e879f9',
-        white: '#e2e8f0',
-        brightBlack: '#64748b',
+        blue: '#3b82f6',
+        magenta: '#a78bfa',
+        cyan: '#22d3ee',
+        white: '#e4e4e7',
+        brightBlack: '#71717a',
         brightRed: '#fca5a5',
         brightGreen: '#6ee7b7',
         brightYellow: '#fcd34d',
-        brightBlue: '#a78bfa',
-        brightMagenta: '#e9d5ff',
-        brightCyan: '#f5d0fe',
-        brightWhite: '#f8fafc',
+        brightBlue: '#60a5fa',
+        brightMagenta: '#c4b5fd',
+        brightCyan: '#67e8f9',
+        brightWhite: '#fafafa',
       },
       fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
       fontSize: 13,
@@ -58,107 +83,110 @@ export default function useTerminal(workspaceId = 'local') {
 
     terminal.open(container);
     fitAddon.fit();
-    fitAddonRef.current = fitAddon;
-    terminalRef.current = terminal;
 
-    // Handle resize
-    const resizeObserver = new ResizeObserver(() => {
-      try {
-        fitAddon.fit();
-      } catch (e) {
-        // Ignore fit errors during rapid resize
-      }
+    _fitAddon = fitAddon;
+    _terminal = terminal;
+
+    // Auto-fit on container resize
+    const ro = new ResizeObserver(() => {
+      try { fitAddon.fit(); } catch {}
     });
-    resizeObserver.observe(container);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
+    ro.observe(container);
+  }, [fitTerminal]);
 
   const connect = useCallback(() => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) return;
+    // Already connected
+    if (_ws?.readyState === WebSocket.OPEN) {
+      setIsConnected(true);
+      return;
+    }
+    // Close stale socket
+    if (_ws) {
+      _ws.onclose = null; // prevent triggering setIsConnected(false)
+      _ws.close();
+      _ws = null;
+    }
 
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const wsUrl = `${protocol}//${window.location.host}/ws/terminal?workspaceId=${workspaceId}`;
-    
+
     const ws = new WebSocket(wsUrl);
-    wsRef.current = ws;
+    _ws = ws;
 
     ws.onopen = () => {
+      if (!mountedRef.current) return;
       setIsConnected(true);
-      terminalRef.current?.writeln('\x1b[32m● Connected to workspace terminal\x1b[0m\r\n');
-      
-      // Send terminal dimensions
-      if (terminalRef.current) {
+      _terminal?.writeln('\x1b[32m● Connected to workspace terminal\x1b[0m\r\n');
+
+      if (_terminal) {
         ws.send(JSON.stringify({
           type: 'resize',
-          cols: terminalRef.current.cols,
-          rows: terminalRef.current.rows,
+          cols: _terminal.cols,
+          rows: _terminal.rows,
         }));
       }
     };
 
     ws.onmessage = (event) => {
-      if (terminalRef.current) {
-        terminalRef.current.write(event.data);
-      }
+      _terminal?.write(event.data);
     };
 
     ws.onclose = () => {
-      setIsConnected(false);
-      terminalRef.current?.writeln('\r\n\x1b[31m● Disconnected from terminal\x1b[0m');
+      if (mountedRef.current) setIsConnected(false);
     };
 
-    ws.onerror = (error) => {
-      console.error('[Terminal WS Error]:', error);
-      setIsConnected(false);
+    ws.onerror = () => {
+      if (mountedRef.current) setIsConnected(false);
     };
 
-    // Send user input to WebSocket
-    terminalRef.current?.onData((data) => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: 'input', data }));
-      }
-    });
+    // Attach input/resize listeners once per terminal instance
+    if (!_listenersAttached && _terminal) {
+      _listenersAttached = true;
 
-    // Handle terminal resize
-    terminalRef.current?.onResize(({ cols, rows }) => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: 'resize', cols, rows }));
-      }
-    });
+      _terminal.onData((data) => {
+        if (_ws?.readyState === WebSocket.OPEN) {
+          _ws.send(JSON.stringify({ type: 'input', data }));
+        }
+      });
+
+      _terminal.onResize(({ cols, rows }) => {
+        if (_ws?.readyState === WebSocket.OPEN) {
+          _ws.send(JSON.stringify({ type: 'resize', cols, rows }));
+        }
+      });
+    }
   }, [workspaceId]);
 
   const disconnect = useCallback(() => {
-    wsRef.current?.close();
-    wsRef.current = null;
+    if (_ws) {
+      _ws.onclose = null;
+      _ws.close();
+      _ws = null;
+    }
     setIsConnected(false);
   }, []);
 
-  const fitTerminal = useCallback(() => {
-    try {
-      fitAddonRef.current?.fit();
-    } catch (e) {
-      // Ignore
+  const sendInput = useCallback((data) => {
+    if (_ws?.readyState === WebSocket.OPEN) {
+      _ws.send(JSON.stringify({ type: 'input', data }));
     }
   }, []);
 
-  // Cleanup on unmount
+  // Track mount state — don't setState after unmount
   useEffect(() => {
+    mountedRef.current = true;
     return () => {
-      wsRef.current?.close();
-      terminalRef.current?.dispose();
+      mountedRef.current = false;
+      // Do NOT destroy terminal/ws on unmount — StrictMode will re-mount
     };
   }, []);
 
   return {
-    terminalRef,
-    containerRef,
     isConnected,
     initTerminal,
     connect,
     disconnect,
     fitTerminal,
+    sendInput,
   };
 }

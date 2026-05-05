@@ -6,24 +6,34 @@ import './Terminal.css';
 
 export default function TerminalPanel() {
   const toggleTerminal = useWorkspaceStore(s => s.toggleTerminal);
+  const pendingCommand = useWorkspaceStore(s => s.pendingCommand);
+  const setPendingCommand = useWorkspaceStore(s => s.setPendingCommand);
   const termContainerRef = useRef(null);
-  const { isConnected, initTerminal, connect, disconnect, fitTerminal } = useTerminal('local');
+  const { isConnected, initTerminal, connect, disconnect, fitTerminal, sendInput } = useTerminal('local');
   const initialized = useRef(false);
 
+  // Initialize terminal + auto-connect (once)
   useEffect(() => {
     if (termContainerRef.current && !initialized.current) {
       initialized.current = true;
       initTerminal(termContainerRef.current);
-      // Auto-connect after a small delay to let terminal render
       setTimeout(() => connect(), 200);
     }
-  }, [initTerminal, connect]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Refit on visibility changes
+  // Watch for pending run commands
   useEffect(() => {
-    const timer = setTimeout(() => fitTerminal(), 100);
+    if (pendingCommand && isConnected) {
+      sendInput(pendingCommand + '\n');
+      setPendingCommand(null);
+    }
+  }, [pendingCommand, isConnected, sendInput, setPendingCommand]);
+
+  // Refit terminal on mount
+  useEffect(() => {
+    const timer = setTimeout(() => fitTerminal(), 150);
     return () => clearTimeout(timer);
-  }, [fitTerminal]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleReconnect = useCallback(() => {
     disconnect();

@@ -1,10 +1,12 @@
-import { GitBranch, Sparkles } from 'lucide-react';
+import { Play, Terminal, GitBranch, Sparkles } from 'lucide-react';
 import useWorkspaceStore from '../../store/workspaceStore';
 import useEditorStore from '../../store/editorStore';
 import './StatusBar.css';
 
 export default function StatusBar() {
   const connectionStatus = useWorkspaceStore(s => s.connectionStatus);
+  const terminalVisible = useWorkspaceStore(s => s.terminalVisible);
+  const toggleTerminal = useWorkspaceStore(s => s.toggleTerminal);
   const activeFile = useEditorStore(s => s.getActiveFile());
 
   return (
@@ -21,6 +23,16 @@ export default function StatusBar() {
           <GitBranch size={12} />
           <span className="status-bar-branch">main</span>
         </div>
+
+        {/* Terminal toggle */}
+        <button
+          className={`status-bar-btn ${terminalVisible ? 'active' : ''}`}
+          onClick={toggleTerminal}
+          title={terminalVisible ? 'Hide Terminal (Ctrl+`)' : 'Show Terminal (Ctrl+`)'}
+        >
+          <Terminal size={13} />
+          <span>Terminal</span>
+        </button>
       </div>
 
       <div className="status-bar-right">

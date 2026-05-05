@@ -77,3 +77,30 @@
   align-items: center;
   gap: 4px;
 }
+
+/* Toggle buttons (Terminal, etc.) */
+.status-bar-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0 var(--space-sm);
+  height: 100%;
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.status-bar-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.status-bar-btn.active {
+  color: var(--accent-primary);
+}
+

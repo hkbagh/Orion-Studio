@@ -28,6 +28,10 @@ const useWorkspaceStore = create((set) => ({
   toggleTerminal: () => set(s => ({ terminalVisible: !s.terminalVisible })),
   setTerminalHeight: (height) => set({ terminalHeight: height }),
 
+  // Run command bridge: set a command here, terminal panel picks it up
+  pendingCommand: null,
+  setPendingCommand: (cmd) => set({ pendingCommand: cmd }),
+
   toggleAIPanel: () => set(s => ({ aiPanelVisible: !s.aiPanelVisible })),
   setAIPanelWidth: (width) => set({ aiPanelWidth: width }),
 
