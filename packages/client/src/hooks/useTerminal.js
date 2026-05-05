@@ -17,6 +17,7 @@ let _fitAddon = null;
 let _ws = null;
 let _container = null;
 let _listenersAttached = false;
+let _connectedWorkspaceId = null;
 
 export default function useTerminal(workspaceId = 'local') {
   const [isConnected, setIsConnected] = useState(false);
@@ -95,12 +96,12 @@ export default function useTerminal(workspaceId = 'local') {
   }, [fitTerminal]);
 
   const connect = useCallback(() => {
-    // Already connected
-    if (_ws?.readyState === WebSocket.OPEN) {
+    // Already connected to the SAME workspace
+    if (_ws?.readyState === WebSocket.OPEN && _connectedWorkspaceId === workspaceId) {
       setIsConnected(true);
       return;
     }
-    // Close stale socket
+    // Close stale socket or socket for wrong workspace
     if (_ws) {
       _ws.onclose = null; // prevent triggering setIsConnected(false)
       _ws.close();
@@ -112,6 +113,7 @@ export default function useTerminal(workspaceId = 'local') {
 
     const ws = new WebSocket(wsUrl);
     _ws = ws;
+    _connectedWorkspaceId = workspaceId;
 
     ws.onopen = () => {
       if (!mountedRef.current) return;

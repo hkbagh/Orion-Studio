@@ -42,7 +42,7 @@ export default class AgentOrchestrator {
     if (!this.activeProvider) {
       if (this.providers.openrouter) {
         this.activeProvider = 'openrouter';
-        this.activeModel = 'google/gemma-4-31b-it:free';
+        this.activeModel = 'google/gemini-2.5-flash';
       } else if (this.providers.gemini) {
         this.activeProvider = 'gemini';
         this.activeModel = 'gemini-2.5-flash';
@@ -65,7 +65,7 @@ export default class AgentOrchestrator {
     // Auto-activate if no provider is active
     if (!this.activeProvider) {
       this.activeProvider = providerName;
-      this.activeModel = providerName === 'openrouter' ? 'google/gemma-4-31b-it:free' : 'gemini-2.5-flash';
+      this.activeModel = providerName === 'openrouter' ? 'google/gemini-2.5-flash' : 'gemini-2.5-flash';
     }
   }
 

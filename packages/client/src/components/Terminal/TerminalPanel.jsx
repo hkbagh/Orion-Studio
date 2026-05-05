@@ -8,8 +8,9 @@ export default function TerminalPanel() {
   const toggleTerminal = useWorkspaceStore(s => s.toggleTerminal);
   const pendingCommand = useWorkspaceStore(s => s.pendingCommand);
   const setPendingCommand = useWorkspaceStore(s => s.setPendingCommand);
+  const workspaceId = useWorkspaceStore(s => s.workspaceId);
   const termContainerRef = useRef(null);
-  const { isConnected, initTerminal, connect, disconnect, fitTerminal, sendInput } = useTerminal('local');
+  const { isConnected, initTerminal, connect, disconnect, fitTerminal, sendInput } = useTerminal(workspaceId);
   const initialized = useRef(false);
 
   // Initialize terminal + auto-connect (once)
@@ -20,6 +21,13 @@ export default function TerminalPanel() {
       setTimeout(() => connect(), 200);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Reconnect when workspace changes
+  useEffect(() => {
+    if (initialized.current) {
+      connect();
+    }
+  }, [workspaceId, connect]);
 
   // Watch for pending run commands
   useEffect(() => {

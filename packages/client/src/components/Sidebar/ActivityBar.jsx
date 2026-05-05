@@ -1,5 +1,6 @@
-import { Files, Search, Sparkles, Settings } from 'lucide-react';
+import { Files, Search, Sparkles, Settings, Users } from 'lucide-react';
 import useWorkspaceStore from '../../store/workspaceStore';
+import useCollaborationStore from '../../store/collaborationStore';
 import './Sidebar.css';
 
 const panels = [
@@ -26,6 +27,8 @@ export default function ActivityBar() {
     }
   };
 
+  const toggleShareDialog = useCollaborationStore(s => s.toggleShareDialog);
+
   return (
     <div className="activity-bar">
       <div className="activity-bar-top">
@@ -45,6 +48,14 @@ export default function ActivityBar() {
       </div>
 
       <div className="activity-bar-bottom">
+        <button
+          className="activity-bar-btn"
+          onClick={toggleShareDialog}
+          title="Share Workspace"
+        >
+          <Users className="icon" size={22} />
+          <span className="activity-bar-tooltip">Share</span>
+        </button>
         {bottomPanels.map(({ id, icon: Icon, label }) => (
           <button
             key={id}

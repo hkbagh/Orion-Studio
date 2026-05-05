@@ -1,0 +1,178 @@
+.share-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.share-dialog {
+  background: var(--bg-secondary, #1a1a24);
+  border: 1px solid var(--border-color, #2a2a35);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.share-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color, #2a2a35);
+}
+
+.share-dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #e2e8f0);
+}
+
+.share-dialog-title svg {
+  color: var(--accent-color, #007acc);
+}
+
+.share-dialog-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary, #a0a0a0);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.share-dialog-close:hover {
+  background: var(--bg-hover, #2a2a35);
+  color: var(--text-primary, #e2e8f0);
+}
+
+.share-dialog-body {
+  padding: 20px;
+  color: var(--text-secondary, #a0a0a0);
+  font-size: 14px;
+}
+
+.share-dialog-body p {
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.share-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.share-options label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #e2e8f0);
+}
+
+.share-options select {
+  background: var(--bg-primary, #09080d);
+  border: 1px solid var(--border-color, #2a2a35);
+  color: var(--text-primary, #e2e8f0);
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.share-options select:focus {
+  border-color: var(--accent-color, #007acc);
+}
+
+.share-error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.share-generate-btn {
+  width: 100%;
+  background: var(--accent-color, #007acc);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.share-generate-btn:hover {
+  background: var(--accent-hover, #005a9e);
+}
+
+.share-generate-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.share-link-container {
+  display: flex;
+  align-items: center;
+  background: var(--bg-primary, #09080d);
+  border: 1px solid var(--border-color, #2a2a35);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.share-link-container input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-primary, #e2e8f0);
+  padding: 12px;
+  font-size: 13px;
+  outline: none;
+}
+
+.share-link-container button {
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border-color, #2a2a35);
+  color: var(--text-secondary, #a0a0a0);
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.share-link-container button:hover {
+  background: var(--bg-hover, #2a2a35);
+  color: var(--text-primary, #e2e8f0);
+}
+
+.share-link-container button.copied {
+  color: #10b981;
+}
+
+.share-link-hint {
+  font-size: 12px;
+  opacity: 0.7;
+}

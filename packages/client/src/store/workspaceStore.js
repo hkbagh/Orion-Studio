@@ -1,6 +1,8 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import useEditorStore from './editorStore';
 
-const useWorkspaceStore = create((set) => ({
+const useWorkspaceStore = create(persist((set) => ({
   // Current workspace
   workspaceId: 'local',
   workspaceName: 'Local Workspace',
@@ -36,10 +38,27 @@ const useWorkspaceStore = create((set) => ({
   setAIPanelWidth: (width) => set({ aiPanelWidth: width }),
 
   setConnectionStatus: (status) => set({ connectionStatus: status }),
-  setWorkspace: (workspace) => set({
-    workspaceId: workspace.id,
-    workspaceName: workspace.name,
-    workspacePath: workspace.path,
+  setWorkspace: (workspace) => {
+    // If workspace changed, clear open files in editor
+    if (useWorkspaceStore.getState().workspaceId !== workspace.id) {
+      useEditorStore.getState().closeAllFiles();
+    }
+    set({
+      workspaceId: workspace.id,
+      workspaceName: workspace.name,
+      workspacePath: workspace.path,
+    });
+  },
+}), {
+  name: 'orion-workspace-storage',
+  partialize: (state) => ({
+    workspaceId: state.workspaceId,
+    workspaceName: state.workspaceName,
+    workspacePath: state.workspacePath,
+    sidebarVisible: state.sidebarVisible,
+    sidebarWidth: state.sidebarWidth,
+    terminalVisible: state.terminalVisible,
+    terminalHeight: state.terminalHeight,
   }),
 }));
 

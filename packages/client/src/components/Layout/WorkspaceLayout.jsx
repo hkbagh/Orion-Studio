@@ -10,6 +10,7 @@ import MonacoEditor from '../Editor/MonacoEditor';
 import TerminalPanel from '../Terminal/TerminalPanel';
 import StatusBar from '../StatusBar/StatusBar';
 import SplitPane from './SplitPane';
+import ShareDialog from '../Share/ShareDialog';
 import './Layout.css';
 
 export default function WorkspaceLayout({ fileSystem }) {
@@ -103,6 +104,9 @@ export default function WorkspaceLayout({ fileSystem }) {
 
       {/* ── Status Bar ── */}
       <StatusBar />
+      
+      {/* ── Modals ── */}
+      <ShareDialog />
     </div>
   );
 }
